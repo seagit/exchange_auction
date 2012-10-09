@@ -13,23 +13,26 @@ module.exports = function(params)
 	});
 	//users
 	app.get('/users', function(req, res){
-		//get info from req and rendering page
-		db.getUsers(function(error,items){
+		db.getUsers(function(error,users){
 			if (error) res.send("Error. getUsers !!!");
-			else res.send(items);
+			else res.send(users);//get info from req and rendering page
 		});
 	});
 	app.get('/users/new', function(req, res){
-		//get info from req and rendering page
-		res.send('Add new user...');
+		res.render('newuser', { title: 'Add new user' })
 	});
-	app.post('/users/new',function(req, res){
-		//get info from req and rendering page
-		res.send('New user has added');
+	app.post('/users/save',function(req, res){
+		console.log('user = ' + JSON.stringify(req.body.user));
+		db.saveUser(req.body.user, function(error,user){
+			if (error) res.send("Error. saveUser !!!");
+			else res.redirect('/users/'+user._id);
+		});
 	});
 	app.get('/users/:id', function(req, res){
-		//get info from req and rendering page
-		res.send('get user by id...');
+		db.getUserById(req.params.id, function(error,user){
+			if (error) res.send("Error. Unknown user !!!");
+			else res.send(user);
+		});
 	});
 	
 	//delete user by id
@@ -49,7 +52,7 @@ module.exports = function(params)
 		//get info from req and rendering page
 		res.send('Add New item...');
 	});
-	app.post('/items/new', function(req, res){
+	app.post('/items/save', function(req, res){
 		//get info from req and rendering page
 		res.send('New item has added');
 	});
