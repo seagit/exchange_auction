@@ -31,7 +31,8 @@ module.exports = function(params)
 	app.get('/users/:id', function(req, res){
 		db.getUserById(req.params.id, function(error,user){
 			if (error) res.send("Error. Unknown user !!!");
-			else res.send(user);
+			/*else res.send(user);*/
+			else res.render('showuser', { user: user});
 		});
 	});
 	
