@@ -1,8 +1,13 @@
 body
-	padding 50px
+	padding 30px
 	font 14px "Lucida Grande", Helvetica, Arial, sans-serif
 a
 	color  #00B7FF
+
+h1,h2,h3,h4,h5
+	margin 0
+	padding 0
+
 
 /*****************************
  * User page
@@ -52,6 +57,91 @@ a
 	display inline-block
 	margin-right 18px
 
+/****************************
+ *  Lot page
+ * *************************/
+#lot-page
+	width 800px
+	margin 0 auto
+
+#lot-page .top-left
+	float left
+	width 200px
+	margin-right 24px
+
+#lot-page .top-left img.main-image
+	width 200px
+	height 200px
+	margin-bottom 24px
+
+#lot-page .top-left .user-info
+	width 174px
+	padding 12px
+	border 1px solid #ccc
+	background-color #ffdead
+
+#lot-page .top-right
+	float right
+	width 576px
+
+#lot-page .top-right h1.lot-title
+	font-size 24px
+	margin-bottom 18px
+	color #666
+
+#lot-page .top-right h3.value
+	font-size 18px
+	margin-bottom 12px
+	color #333
+
+#lot-page .top-right .lot-desc
+	padding 18px
+	margin-bottom 18px
+	border 1px solid #ccc
+	background-color #ddd
+	
+#lot-page .top-right .lot-wishes
+	padding 18px
+	border 1px solid #ccc
+	background-color #ddd
+
+#lot-page .top-right h5.desc-title,  #lot-page .top-right h5.wishes-title
+	font-size 16px
+	margin-left -6px
+	color #666
+
+#lot-page .bottom-left
+	float left
+	width 200px
+	margin-right 24px
+
+#lot-page .bottom-right
+	float right
+	width 576px
+
+#lot-page .bottom-right h3.disc-title
+	margin-bottom 18px
+	font-size 21px
+	color #6a5acd
+
+#lot-page .bottom-right .discussion article.offer
+	float left
+	width 450px
+	padding 12px
+	margin-bottom 12px
+	border 1px solid #e6e6fa
+	background-color #87cefa
+	-webkit-border-radius 12px
+
+#lot-page .bottom-right .discussion article.response
+	float right
+	width 450px
+	padding 12px
+	margin-bottom 12px
+	border 1px solid #e6e6fa
+	background-color #87cefa
+	-webkit-border-radius 12px
+
 .clr 
 	clear both
 
@@ -63,3 +153,18 @@ a
 
 .counters
 	float right
+/***************************
+ * For development
+ * ************************/
+.main-menu-dev
+	width 800px
+	margin-bottom 30px
+
+.main-menu-dev a
+	display inline-block
+	padding 12px
+	margin 0 66px
+	color #6a5acd
+	background-color #87cefa
+	text-decoration none
+	-webkit-border-radius 12px

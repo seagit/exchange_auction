@@ -5,6 +5,7 @@ html
 		link(rel='stylesheet', href='/stylesheets/style.css')
 	body
 		#user-page
+			include includes/menu
 			div.user-ava
 				if user.photo != '' 
 					img(src=#{user.photo}, alt='avatar')
@@ -27,7 +28,8 @@ html
 			- for lot in lots
 				section.lot-admin
 					img.lot-image(src='#{lot.main_image}', alt='lot image')
-					h3.lot-title= lot.name
+					a(href='/items/' + lot.id)	
+						h3.lot-title= lot.name
 					div.lot-actions
 						a(href='/items/start/' + lot.id) start exchange
 						a(href='/items/stop/' + lot.id) stop exchange

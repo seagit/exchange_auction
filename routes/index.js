@@ -31,7 +31,6 @@ module.exports = function(params)
 	app.get('/users/:id', function(req, res){
 		db.getUserById(req.params.id, function(error,user){
 			if (error) res.send("Error. Unknown user !!!");
-			/*else res.send(user);*/
 			else res.render('showuser', { user: user});
 		});
 	});
@@ -58,8 +57,10 @@ module.exports = function(params)
 		res.send('New item has added');
 	});
 	app.get('/items/:id', function(req, res){
-		//get info from req and rendering page
-		res.send('get item by id...');
+		db.getItemById(req.params.id, function(error,lot){
+			if (error) res.send("Error. Unknown item !!!");
+			else res.render('showlot', { lot: lot});
+		});
 	});
 	//delete item by id
 	//...
