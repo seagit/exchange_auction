@@ -19,14 +19,14 @@ DbProvider.prototype.getCollection = function(collectionName,callback) {
 };
 
 //Items(collection of Goods or Product)
-DbProvider.prototype.getItems = function(callback) {
+DbProvider.prototype.getItems = function(parameters, callback) {
     this.getCollection('items', function(error, items_collection) {
 	  
 	  console.log('items_collection ' + items_collection);
       
 	  if( error ) callback(error)
       else {
-        items_collection.find().toArray(function(error, results) {
+        items_collection.find(parameters).toArray(function(error, results) {
 		
 			console.log('items ' + results);
 			
@@ -45,23 +45,6 @@ DbProvider.prototype.getItemById = function(id, callback) {
           if( error ) callback(error)
           else callback(null, result)
         });
-      }
-    });
-};
-
-DbProvider.prototype.getItemsByCategory = function(category, callback) {
-    this.getCollection('items', function(error, items_collection) {
-      if( error ) callback(error)
-      else {
-		items_collection.find({'category': category}, function(error, category_collection) {
-			if( error ) callback(error)
-			else {
-				category_collection.toArray(function(error, results) {
-					if( error ) callback(error)
-					else callback(null, results)
-				});
-			}
-		});
       }
     });
 };
@@ -94,14 +77,14 @@ DbProvider.prototype.addOfferToItem = function(itemId, offer, callback) {
 };
 
 //User
-DbProvider.prototype.getUsers = function(callback) {
+DbProvider.prototype.getUsers = function(parameters,callback) {
     this.getCollection('users', function(error, users_collection) {
 	  
 	  console.log('users_collection ' + users_collection);
       
 	  if( error ) callback(error)
       else {
-        users_collection.find().toArray(function(error, results) {
+        users_collection.find(parameters).toArray(function(error, results) {
 		
 			console.log('users ' + results);
 			
@@ -151,6 +134,49 @@ DbProvider.prototype.addItemToUser = function(userId, item, callback) {
 		*/
     }
   });
+};
+
+//Category
+DbProvider.prototype.getCategories = function(parameters,callback) {
+    this.getCollection('categories', function(error, category_collection) {
+	  
+	  console.log('category_collection ' + category_collection);
+      
+	  if( error ) callback(error)
+      else {
+        category_collection.find(parameters).toArray(function(error, results) {
+		
+			console.log('categories ' + results);
+			
+			if( error ) callback(error)
+			else callback(null, results)
+        });
+      }
+    });
+};
+
+DbProvider.prototype.getCategoryById = function(id, callback) {
+    this.getCollection('categories', function(error, category_collection) {
+      if( error ) callback(error)
+      else {
+        category_collection.findOne({_id: category_collection.db.bson_serializer.ObjectID.createFromHexString(id)}, function(error, result) {
+          if( error ) callback(error)
+          else callback(null, result)
+        });
+      }
+    });
+};
+
+DbProvider.prototype.saveCategory = function(category, callback) {
+    this.getCollection('categories', function(error, category_collection) {
+      if( error ) callback(error)
+      else {
+		//...??? length of item ???
+		category_collection.insert(category, function() {
+          callback(null, category);
+        });
+      }
+    });
 };
 
 module.exports = new DbProvider('localhost', 27017);
