@@ -35,9 +35,12 @@ block content
 		section.bottom-right
 			h3.disc-title Discussion
 			section.discussion
-				-var i = 0
-				- for topic in lot.offers
-					//- TODO: should be case by type of topic : guest offer, user offer, response
-					article(class = '#{i%2 === 0 ? 'offer' : 'response'}')
-						p= topic.description
-					- i++
+				- var i = 0
+				if lot.offers
+					- for topic in lot.offers
+						//- TODO: should be case by type of topic : guest offer, user offer, response
+						article(class = '#{i%2 === 0 ? 'offer' : 'response'}')
+							p= topic.description
+						- i++
+				else
+					p No discussion right now

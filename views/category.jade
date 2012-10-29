@@ -1,0 +1,35 @@
+extends layout
+
+block content
+	#category-page
+		.container
+			.row
+				.span3
+					ul.nav.nav-tabs.nav-stacked
+						- for sub in sub_cat
+							li: a(href='/category/#{sub._id}')= sub.name
+				.span9
+					ul.breadcrumb
+						li
+							a(href='/') Головна
+							span.divider /
+						li.active= cur_cat.name
+					legend= cur_cat.name
+						small &nbsp; всього #{items.length} речей
+					form.form-inline	
+						span.help-inline кількість елементів на сторінці &nbsp;&nbsp;
+						select.span1
+							option(value='5') 5
+							option(value='10') 10
+							option(value='50') 50
+					ul
+					- for item in items
+						li= item.name	
+					.pagination.pagination-centered
+						ul
+							li: a(href='#') <<
+							li: a(href='#') 1
+							li: a(href='#') 2
+							li: a(href='#') 3
+							li: a(href='#') 4
+							li: a(href='#') >>

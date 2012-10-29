@@ -62,7 +62,7 @@ module.exports = function(params)
 	app.get('/item/:id', function(req, res){
 		db.getItemById(req.params.id, function(error,item){
 			if (error) res.send("Error. Unknown item !!!");
-			else res.send(item);//res.render('showlot', { lot: item});
+			else res.render('showlot', { lot: item});
 		});
 	});
 	//delete item by id
