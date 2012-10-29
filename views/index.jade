@@ -1,29 +1,27 @@
-!!! 5
-html(lang="ru")
-	head
-		title= title 
-	body
-		#home-page
-			ul
-				li: a(href='/users') all users
-				li: a(href='/items') all lots
-				li: a(href='/categories') all categories
-				li: a(href='/about') about us
-				li: a(href='/routes') all routes
-				li: a(href='/users/new') new user
-				li: a(href='/items/new') new lot
-				li: a(href='/category/new') new category
-				li: a(href='/items/exchanged') exchanged
-			script function userById() { location.href = '/users/'+ document.getElementById('user_id').value }
-			input(type='text', id='user_id', size='90')
-			button(onClick= 'userById()') show user by ID
-			br
-			br
-			script function lotById() { location.href = '/items/'+ document.getElementById('lot_id').value }
-			input(type='text', id='lot_id', size='90')
-			button(onClick= 'lotById()') show lot by ID
-			br
-			br
-			script function lotsByCategoryId() { location.href = '/category/'+ document.getElementById('category_id').value }
-			input(type='text', id='category_id', size='90')
-			button(onClick= 'lotsByCategoryId()') show lots by Category ID
+extends layout
+
+block content
+	#home-page.container
+		ul
+			li: a(href='/users') all users
+			li: a(href='/items') all lots
+			li: a(href='/categories') all categories
+			li: a(href='/routes') all routes
+			li: a(href='/about') about us
+			li: a(href='/users/new') new user
+			li: a(href='/items/new') new lot
+			li: a(href='/category/new') new category
+			li: a(href='/items/exchanged') exchanged
+		script function userById() { location.href = '/users/'+ document.getElementById('user_id').value }
+		input(type='text', id='user_id', size='90')
+		button(onClick= 'userById()') show user by ID
+		br
+		br
+		script function lotById() { location.href = '/items/'+ document.getElementById('lot_id').value }
+		input(type='text', id='lot_id', size='90')
+		button(onClick= 'lotById()') show lot by ID
+		br
+		br
+		script function lotsByCategoryId() { location.href = '/category/'+ document.getElementById('category_id').value }
+		input(type='text', id='category_id', size='90')
+		button(onClick= 'lotsByCategoryId()') show lots by Category ID
