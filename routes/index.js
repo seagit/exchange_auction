@@ -5,7 +5,9 @@ module.exports = function(params)
 	
 	//index
 	app.get('/', function(req, res){
-		res.render('index', { title: 'Exchange auction' });
+		db.getCategories({}, function(error, categories){
+			res.render('index', { title: 'Exchange auction', categories: categories });
+		})
 	});
 	//about
 	app.get('/about', function(req, res){
@@ -88,7 +90,16 @@ module.exports = function(params)
 	app.get('/category/:id', function(req, res){
 		db.getCategoryById(req.params.id, function(error,category){
 			if (error) res.send("Error. Unknown category !!!");
-			else res.send(category);
+			else
+			{
+				db.getItems({category: category._id }, function(error,items){
+					db.getCategories({}, function(error, categories){
+						if (error) res.send("Error. getItems !!!");
+						else res.render('category', {items: items, sub_cat: categories, cur_cat: category });
+						//else res.send(items);
+					});
+				});
+			}
 		});
 	});
 	

@@ -2,6 +2,12 @@ extends layout
 
 block content
 	#home-page.container
+		.input-append	
+			select#cur-cat
+				- for cat in categories
+					option(value='#{cat._id}')= cat.name
+			script function catByID(){ location.href = '/category/' + document.getElementById('cur-cat').value }
+			button.btn(onClick='catByID()') Перегляд категорії
 		ul
 			li: a(href='/users') all users
 			li: a(href='/items') all items
