@@ -1,0 +1,8 @@
+h1= 'Add new category'
+form( action='/category', method='post' )
+  .item
+    label name:
+    input( name='category[name]', type='text' )
+  .item
+    button( type='submit') Add
+
