@@ -109,13 +109,14 @@ DbProvider.prototype.getUserById = function(id, callback) {
 
 DbProvider.prototype.saveUser = function(user, callback) {
     this.getCollection('users', function(error, users_collection) {
-      if( error ) callback(error)
-      else {
-		//...??? length of item ???
-		users_collection.insert(user, function() {
-          callback(null, user);
-        });
-      }
+        if( error ) callback(error)
+        else 
+        {
+		          //...??? length of item ???
+              console.log(user);
+		          users_collection.save(user);
+              callback(null, user);
+        }
     });
 };
 
@@ -182,18 +183,27 @@ DbProvider.prototype.saveCategory = function(category, callback) {
 DbProvider.prototype.createSession = function(token, user_id, callback) {
 	if(token && user_id)
 	{
-		newSession = {token: token, user_id: user_id};
-		this.tokens.save(newSession);
-		callback(token);
+		var newSession = {token: token, user_id: user_id};
+		this.getCollection('tokens', function(error, tokens_coll){
+      if(!error)
+      {  
+        console.log('xxxxxxxxxxx');
+        console.log(newSession);
+        tokens_coll.save(newSession);
+        callback(token);
+      }
+      else callback(null);
+
+    });		
 	}
-	else calback(null);
+	else callback(null);
 };
 
 DbProvider.prototype.getSession = function(token, callback) {
 	if(token)
 	{
-		var userId = this.tokens.find({token: token});
-		if(userId) callback(userId);
+		var sess = this.tokens.find({token: token});
+		if(userId) callback(sess.userId);
 		else callback(null);
 	}
 	else callback(null);
@@ -206,6 +216,23 @@ DbProvider.prototype.destroySession = function(token, callback) {
 		callback({});
 	}
 	else callback(null);
+};
+
+DbProvider.prototype.getUserPass = function(user_name, callback) {
+  if(user_name)
+  {
+    this.getCollection('users', function(error, users_coll){
+      if(!error)
+      {
+        users_coll.findOne({name: user_name}, function(err, usr){
+            if(usr) callback(usr.psw, usr.salt);
+            else callback(err);
+        });
+      }
+      else callback(null);
+    });
+  }
+  else callback(null);
 };
 
 module.exports = new DbProvider('localhost', 27017);

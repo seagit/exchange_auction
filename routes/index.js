@@ -1,8 +1,9 @@
 module.exports = function(params) 
 {
-	var app  = params.app,
-	    db	 = params.db,
-	    user = params.user;
+	var app    = params.app,
+	    db	   = params.db,
+	    user   = params.user,
+	    crypto = params.crypto;
 	
 	function requiresLogin(req, res, next)
 	{
@@ -11,6 +12,11 @@ module.exports = function(params)
 			else res.redirect('/sessions/new?redirect=' + req.url);
 		});
 	}
+
+	function makeTokens() 
+	{
+      return [Math.round((new Date().valueOf() * Math.random())) + '4', Math.round((new Date().valueOf() * Math.random())) + '4'];
+    }
 
 	//index
 	app.get('/', function(req, res){
@@ -21,12 +27,57 @@ module.exports = function(params)
 	
 	//login
 	app.post('/login', function(req, res){
-			user.authenticate(req.body.user_name, req.body.pass, function(user){
-				if(user)
-					req.session.user_name = '234888';
-				else
-					res.redirect('/sessions/new?redirect=' + req.url);
-			})
+
+		if(!req.session.token)
+		{
+			if(req.body.user_name && req.body.pass)
+			{
+				user.authenticate(req.body.user_name, req.body.pass, function(sessToken, user_id){
+					if(sessToken)
+					{
+						console.log(sessToken);
+						req.session.token = sessToken;
+						db.createSession(sessToken, user_id, function(token){
+								console.log('success login');
+								console.log(token);
+								res.redirect('/');						
+						});
+						/*if (req.body.remember_me)
+						{
+        					var  loginToken1, loginToken2;
+        					[loginToken1, loginToken2] = makeTokens();
+        					
+        					loginToken.save(function() {
+          						res.cookie('logintoken', loginToken.cookieValue, {
+              					expires: new Date(Date.now() + 2 * 604800000),
+              					path: '/'
+          					});
+        		});
+      }			*/			
+					}						
+					else	res.redirect('/login?redirect=' + req.url);
+				})
+			}
+		}
+		else 
+		{
+			console.warn('ALREADY LOGGED IN');	
+			res.redirect('/login_fail?redirect=' + req.url);
+		}
+	});
+
+	app.get('/login', function(req, res){
+		var salt = Math.round((new Date().valueOf() * Math.random())) + '4';
+		var psw = crypto.createHash('sha256', salt).update('123').digest("hex");
+		db.saveUser({name:'testuser', salt: salt, psw: psw}, function(){});
+		res.redirect('/');
+	});
+
+	//logout
+	app.del('/login', requiresLogin, function(req, res){
+		if (req.session) 
+    		req.session.destroy(function() {});
+  		res.redirect('/login');
 	});
 
 	//about

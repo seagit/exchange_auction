@@ -18,10 +18,13 @@
 			legend Для зареєстрованих:
 			form(action='/login', method='POST')
 				label email
-				input(type='text', name='user_id')
+				input(type='text', name='user_name')
 				label Пароль
 				input(type='password', name='pass')
 				a.btn.btn-link  Забули пароль ?
+				div
+					label(for='remember_me') Remember me:
+					input#remember_me(type='checkbox', name='remember_me')
 				button.btn.btn-primary(type='submit') Увійти
 		
 .modal-footer

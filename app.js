@@ -3,7 +3,8 @@ var express = require('express')
 	,path = require('path')
 	,db = require('./mongodb_provider')
 	,user = require('./user')
-	,MongoStore = require('connect-mongo')(express);
+	,MongoStore = require('connect-mongo')(express)
+  ,crypto = require('crypto');
 
 var app = express();
 
@@ -18,8 +19,8 @@ app.configure(function(){
   app.use(express.cookieParser('your secret here'));
   app.use(express.session({
   	secret: 'tramontinavse', 
-	store: new MongoStore({
-		db: 'exchange_auction_db'
+	  store: new MongoStore({
+		  db: 'exchange_auction_db'
 		})
   }));
   app.use(app.router);
@@ -35,7 +36,7 @@ app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
 
-var	routes = require('./routes')(/*parameters for router*/{app: app, db: db, user: user});
+var	routes = require('./routes')(/*parameters for router*/{app: app, db: db, user: user, crypto: crypto});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Exchange auction listening on port " + app.get('port'));
