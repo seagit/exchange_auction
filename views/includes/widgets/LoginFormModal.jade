@@ -16,11 +16,11 @@
 				input(type='text')
 		.span3.pull-right
 			legend Для зареєстрованих:
-			form
+			form(action='/login', method='POST')
 				label email
-				input(type='email')
+				input(type='text', name='user_id')
 				label Пароль
-				input(type='password')
+				input(type='password', name='pass')
 				a.btn.btn-link  Забули пароль ?
 				button.btn.btn-primary(type='submit') Увійти
 		

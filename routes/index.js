@@ -1,16 +1,36 @@
 module.exports = function(params) 
 {
-	var app = params.app,
-		db	= params.db;
+	var app  = params.app,
+	    db	 = params.db,
+	    user = params.user;
 	
+	function requiresLogin(req, res, next)
+	{
+		db.getSession(req.session.token, function(userId){
+			if(userId) next();
+			else res.redirect('/sessions/new?redirect=' + req.url);
+		});
+	}
+
 	//index
 	app.get('/', function(req, res){
 		db.getCategories({}, function(error, categories){
 			res.render('index', { title: 'Exchange auction', categories: categories });
 		})
 	});
+	
+	//login
+	app.post('/login', function(req, res){
+			user.authenticate(req.body.user_name, req.body.pass, function(user){
+				if(user)
+					req.session.user_name = '234888';
+				else
+					res.redirect('/sessions/new?redirect=' + req.url);
+			})
+	});
+
 	//about
-	app.get('/about', function(req, res){
+	app.get('/about', requiresLogin, function(req, res){
 		res.render('index', { title: 'About exchange auction' });
 	});
 	//users
@@ -45,11 +65,13 @@ module.exports = function(params)
 	
 	//items
 	app.get('/items', function(req, res){
-		//return res.send(req.query.parameters || {});
-		db.getItems(req.query.parameters || {}, function(error,items){
-			if (error) res.send("Error. getItems !!!");
-			else res.send(items);
-		});
+		if (req.query.parameters )
+			db.getItems(req.query.parameters || {}, function(error,items){
+				if (error) res.send("Error. getItems !!!");
+				else res.send(items);
+			});
+		else
+			res.render('newitem');
 	});
 	app.get('/item', function(req, res){
 		//get info from req and rendering page

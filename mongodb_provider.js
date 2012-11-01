@@ -179,4 +179,33 @@ DbProvider.prototype.saveCategory = function(category, callback) {
     });
 };
 
+DbProvider.prototype.createSession = function(token, user_id, callback) {
+	if(token && user_id)
+	{
+		newSession = {token: token, user_id: user_id};
+		this.tokens.save(newSession);
+		callback(token);
+	}
+	else calback(null);
+};
+
+DbProvider.prototype.getSession = function(token, callback) {
+	if(token)
+	{
+		var userId = this.tokens.find({token: token});
+		if(userId) callback(userId);
+		else callback(null);
+	}
+	else callback(null);
+};
+
+DbProvider.prototype.destroySession = function(token, callback) {
+	if(token)
+	{
+		this.tokens.remove({token: token});
+		callback({});
+	}
+	else callback(null);
+};
+
 module.exports = new DbProvider('localhost', 27017);
