@@ -7,10 +7,16 @@ module.exports = function(params)
 	
 	function requiresLogin(req, res, next)
 	{
-		db.getSession(req.session.token, function(userId){
-			if(userId) next();
-			else res.redirect('/sessions/new?redirect=' + req.url);
-		});
+		console.log('middleware');
+		if(req.session.token)
+		{
+			console.log('token : ' + req.session.token);
+			db.getSession(req.session.token, function(userId){
+				if(userId) next();
+				else res.redirect('/sessions/new?redirect=' + req.url);
+			});
+		}
+		else res.redirect('/sessions/new?redirect=' + req.url);
 	}
 
 	function makeTokens() 
@@ -28,18 +34,15 @@ module.exports = function(params)
 	//login
 	app.post('/login', function(req, res){
 
-		if(!req.session.token)
-		{
+		
 			if(req.body.user_name && req.body.pass)
 			{
 				user.authenticate(req.body.user_name, req.body.pass, function(sessToken, user_id){
 					if(sessToken)
 					{
-						console.log(sessToken);
 						req.session.token = sessToken;
 						db.createSession(sessToken, user_id, function(token){
 								console.log('success login');
-								console.log(token);
 								res.redirect('/');						
 						});
 						/*if (req.body.remember_me)
@@ -58,12 +61,7 @@ module.exports = function(params)
 					else	res.redirect('/login?redirect=' + req.url);
 				})
 			}
-		}
-		else 
-		{
-			console.warn('ALREADY LOGGED IN');	
-			res.redirect('/login_fail?redirect=' + req.url);
-		}
+		
 	});
 
 	app.get('/login', function(req, res){
@@ -74,15 +72,17 @@ module.exports = function(params)
 	});
 
 	//logout
-	app.del('/login', requiresLogin, function(req, res){
-		if (req.session) 
-    		req.session.destroy(function() {});
-  		res.redirect('/login');
+	app.get('/logout', requiresLogin, function(req, res){
+			console.log('logout');
+			req.session.destroy(function() {});
+			res.redirect('/');
 	});
 
 	//about
 	app.get('/about', requiresLogin, function(req, res){
-		res.render('index', { title: 'About exchange auction' });
+		db.getCategories({}, function(error, categories){
+			res.render('index', { title: 'Exchange about', categories: categories });
+		})
 	});
 	//users
 	app.get('/users', function(req, res){

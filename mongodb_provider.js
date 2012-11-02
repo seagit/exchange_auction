@@ -187,8 +187,6 @@ DbProvider.prototype.createSession = function(token, user_id, callback) {
 		this.getCollection('tokens', function(error, tokens_coll){
       if(!error)
       {  
-        console.log('xxxxxxxxxxx');
-        console.log(newSession);
         tokens_coll.save(newSession);
         callback(token);
       }
@@ -200,11 +198,21 @@ DbProvider.prototype.createSession = function(token, user_id, callback) {
 };
 
 DbProvider.prototype.getSession = function(token, callback) {
-	if(token)
+	console.log('token : ' + token);
+  if(token)
 	{
-		var sess = this.tokens.find({token: token});
-		if(userId) callback(sess.userId);
-		else callback(null);
+    console.log('token : ' + token);
+    this.getCollection('tokens', function(error, tokens_col){
+      if(!error)
+      {
+        tokens_col.findOne({token: token}, function(err, sess){
+            console.log(sess);
+            if(sess) callback(sess.user_id);
+            else callback(null);
+        });
+      }
+      else callback(null);
+    });		
 	}
 	else callback(null);
 };
@@ -212,8 +220,10 @@ DbProvider.prototype.getSession = function(token, callback) {
 DbProvider.prototype.destroySession = function(token, callback) {
 	if(token)
 	{
-		this.tokens.remove({token: token});
-		callback({});
+		this.getCollection('tokens', function(error, tokens_col){
+        tokens_col.remove({token: token});
+        callback({});
+    });
 	}
 	else callback(null);
 };
@@ -225,7 +235,7 @@ DbProvider.prototype.getUserPass = function(user_name, callback) {
       if(!error)
       {
         users_coll.findOne({name: user_name}, function(err, usr){
-            if(usr) callback(usr.psw, usr.salt);
+            if(usr) callback(usr.psw, usr.salt, usr._id);
             else callback(err);
         });
       }
