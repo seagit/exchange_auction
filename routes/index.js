@@ -27,7 +27,8 @@ module.exports = function(params)
 	//index
 	app.get('/', function(req, res){
 		db.getCategories({}, function(error, categories){
-			res.render('index', { title: 'Exchange auction', categories: categories });
+			liu = req.session.token ? req.session.token : null;
+			res.render('index', { title: 'Exchange auction', categories: categories, loggedin_user: liu });
 		})
 	});
 	
