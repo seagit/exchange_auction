@@ -16,7 +16,7 @@ module.exports = function(params)
 				else res.redirect('/sessions/new?redirect=' + req.url);
 			});
 		}
-		else res.redirect('/sessions/new?redirect=' + req.url);
+		else res.render('bad_auth');
 	}
 
 	function makeTokens() 
@@ -80,9 +80,7 @@ module.exports = function(params)
 
 	//about
 	app.get('/about', requiresLogin, function(req, res){
-		db.getCategories({}, function(error, categories){
-			res.render('index', { title: 'Exchange about', categories: categories });
-		})
+		res.render('about');
 	});
 	//users
 	app.get('/users', function(req, res){

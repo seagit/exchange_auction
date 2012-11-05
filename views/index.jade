@@ -2,76 +2,71 @@ extends layout
 
 block content
 	#home-page.container
-		.input-append	
-			select#cur-cat
-				- for cat in categories
-					option(value='#{cat._id}')= cat.name
-			script function catByID(){ location.href = '/category/' + document.getElementById('cur-cat').value }
-			button.btn(onClick='catByID()') Перегляд категорії
-		ul
-			li: a(href='/users') all users
-			li: a(href='/items') all items
-			li: a(href='/categories') all categories
-			li: a(href='/about') about us
-			li: a(href='/routes') all routes
-			li: a(href='/user') new user
-			li: a(href='/items') new item
-			li: a(href='/category') new category
-			li: a(href='/items/exchanged') exchanged
-		script function userById() { location.href = '/user/'+ document.getElementById('user_id').value }
-		input(type='text', id='user_id', size='90')
-		button(onClick= 'userById()') show user by ID
-		br
-		br
-		script function itemById() { location.href = '/item/'+ document.getElementById('item_id').value }
-		input(type='text', id='item_id', size='90')
-		button(onClick= 'itemById()') show lot by ID
-		br
-		br
-		script function categoryById() { location.href = '/category/'+ document.getElementById('category_id').value }
-		input(type='text', id='category_id', size='90')
-		button(onClick= 'categoryById()') show category by ID
-		br
-		br
-		script 
-			function users() {
-					var parameters = ['name', 'email', 'location'];
-					var query='';
-					for(var i = 0; i < parameters.length; i++) {
-						var p = document.getElementById(parameters[i]);
-						if ( p && p.value.length>0 ) {
-							if (query.length > 0 ) query += '&';
-							query += 'parameters[' + parameters[i] +']'+ '=' + p.value;
-						}
-					}
-					location.href = query.length > 0 ? '/users?' + query : '/users';
-				};
-		p
-			b name 
-			input(type='text', id='name', size='40') 
-			b email 
-			input(type='text', id='email', size='40') 
-			b location
-			input(type='text', id='location', size='40')
-			button(onClick= 'users()') show users by parameters
-		script 
-			function items() {
-					var parameters = ['price', 'category', 'status'];
-					var query='';
-					for(var i = 0; i < parameters.length; i++) {
-						var p = document.getElementById(parameters[i]);
-						if ( p && p.value.length>0 ) {
-							if (query.length > 0 ) query += '&';
-							query += 'parameters[' + parameters[i] +']'+ '=' + p.value;
-						}
-					}
-					location.href = query.length > 0 ? '/items?' + query : '/items';
-				};
-		p
-			b price 
-			input(type='text', id='price', size='40') 
-			b category 
-			input(type='text', id='category', size='40') 
-			b status
-			input(type='text', id='status', size='40')
-			button(onClick= 'items()') show items by parameters	
+	.whole-width-container.main-cat-wrapper
+		.container
+			.row
+				.span2
+					a.text-center.main-cat
+						img.img-circle(src='/i/clothes2.jpg', alt='category')
+						Одяг
+				.span2
+					a.text-center.main-cat
+						img.img-circle(src='/i/technique.jpg', alt='category')
+						Побутова техніка
+				.span2
+					a.text-center.main-cat
+						img.img-circle(src='/i/interior.jpg', alt='category')
+						Інтер'єр
+				.span2
+					a.text-center.main-cat
+						img.img-circle(src='/i/garden.jpg', alt='category')
+						Сад город
+				.span2
+					a.text-center.main-cat
+						img.img-circle(src='/i/repairs2.jpg', alt='category')
+						Для ремонту
+				.span2
+					a.text-center.main-cat
+						img.img-circle(src='/i/cars.jpg', alt='category')
+						Авто мото
+			.row
+				.span2
+					a.text-center.main-cat
+						img.img-circle(src='/i/clothes.jpg', alt='category')
+						Для дітей
+				.span2
+					a.text-center.main-cat
+						img.img-circle(src='/i/books.jpg', alt='category')
+						Книги
+				.span2
+					a.text-center.main-cat
+						img.img-circle(src='/i/gadgets2.jpg', alt='category')
+						Гаджети
+				.span2
+					a.text-center.main-cat
+						img.img-circle(src='/i/discs.jpg', alt='category')
+						Музика фільми
+				.span2
+					a.text-center.main-cat
+						img.img-circle(src='/i/filnum.jpg', alt='category')
+						Колекціонеру
+				.span2	
+					a.text-center.main-cat
+						img.img-circle(src='/i/rizne.jpg', alt='category')
+						Різне
+	.container
+		.row
+			.span12
+				.jcarousel
+					#ex-prod
+						a: img(src='/i/lots/wificar.jpg')
+						a: img(src='/i/lots/ebookreader.jpg')
+						a: img(src='/i/lots/kedu.jpg')
+						a: img(src='/i/lots/ochki.jpg')
+						a: img(src='/i/lots/gonki.jpg')
+						a: img(src='/i/lots/cap.jpg')
+						a: img(src='/i/lots/kosheljok.jpg')
+						a: img(src='/i/lots/girya.jpg')
+					.clr
+					a#prev-carousel(href='#') 
+					a#next-carousel(href='#') 

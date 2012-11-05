@@ -4,6 +4,48 @@
 .logout-trigger {
   margin-top: 18px;
 }
+.text-center {
+  text-align: center;
+}
+.main-cat {
+  display: block;
+  width: 140px;
+}
+.main-cat-wrapper {
+  background-color: #eee;
+  padding: 18px 0 0;
+  border-top: 1px solid #d4d4d4;
+  border-bottom: 1px solid #d4d4d4;
+}
+.main-cat-wrapper .row {
+  margin-bottom: 18px;
+}
+.jcarousel {
+  position: relative;
+  padding: 18px 0 0;
+}
+.jcarousel a {
+  float: left;
+  display: block;
+  margin: 0 3px;
+}
+a#prev-carousel,
+a#next-carousel {
+  background: url("i/strelki.png") no-repeat transparent;
+  width: 18px;
+  height: 28px;
+  display: block;
+  position: absolute;
+  top: 79px;
+}
+a#prev-carousel {
+  left: -25px;
+  background-position: 0 0;
+}
+a#next-carousel {
+  right: -22px;
+  background-position: -18px 0;
+}
 /*****************************
  * additions to bootstrap
  * **************************/
@@ -150,6 +192,11 @@
 /****************************
  *  Footer
  * *************************/
+.main-footer {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 2px solid #d4d4d4;
+}
 .copyright {
   float: left;
 }

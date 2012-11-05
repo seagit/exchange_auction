@@ -10,4 +10,23 @@ $(document).ready(function(){
         				}
 });
 	});*/
+
+	$("#ex-prod").carouFredSel({
+		items: {
+			visible: 6,
+			width: 156,
+			height: 150
+		},
+		scroll: 1,
+		auto: false,
+		prev: {
+			button: "#prev-carousel",
+			key: "left"
+		},
+		next: {
+			button: "#next-carousel",
+			key: "right"
+		},
+		pagination: "#pagin-cont"
+	});
 });

@@ -5,13 +5,11 @@ module.exports.authenticate = function(user_name, pass, callback){
 	console.log(user_name);
 	console.log(pass);
 	
-	function generateObminToken()
-	{
+	function generateObminToken() {
 		return Math.round((new Date().valueOf() * Math.random())) + '4';
 	}
 
-	function obminHash(pass, salt)
-	{
+	function obminHash(pass, salt) {
 		return crypto.createHash('sha256', salt).update(pass).digest("hex");
 	}
 
